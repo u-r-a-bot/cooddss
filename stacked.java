@@ -1,5 +1,16 @@
 import java.util.Scanner;
-
+class Stackoverflow extends Exception{
+    @Override
+    public String toString() {
+        return "Stack overflow!!! Operation failed";
+    }
+}
+class PopError extends Exception{
+    @Override
+    public String toString() {
+        return "PopError!!! no element to pop";
+    }
+}
 class Stack{
     int[] stack;
     static int length;
@@ -12,6 +23,7 @@ class Stack{
     Stack pop(Stack a)throws Exception{
         if(Stack.pointer < 0) throw new Exception();
         else{
+            System.out.println("The Element "+ a.stack[pointer]+" will be popped");
             a.stack[pointer] = 0;
             pointer --;
         }
@@ -44,26 +56,35 @@ class stacked{
             System.out.println("Enter the number to perform following expression on stack\n1.Push\n2.Pop\n3.Print\n4.exit");
             int choice = sc.nextInt();
             try{
-            switch(choice){
-                case 1:
-                try{
-                    System.out.println("Enter the number you want to push");
-                    int pu = sc.nextInt();
-                    stacked = stacked.push(stacked, pu);
-                    break;}catch(Exception e){System.out.println();}
-                case 2:
-                    System.out.println("The Element will be poped ");
-                    stacked = stacked.pop(stacked);
-                    break;
-                case 3:
-                    stacked.printer(stacked);
-                    break;
-                case 4:
-                    b= false;
-                    break;
+                switch(choice){
+                    case 1:
+                        try{
+                            System.out.println("Enter the number you want to push");
+                            int pu = sc.nextInt();
+                            stacked = stacked.push(stacked, pu);
+                            break;
+                            }catch(Exception e){throw new Stackoverflow();}
+                    case 2:
+                        try {
+                            //System.out.println("The Element will be poped ");
+                            stacked = stacked.pop(stacked);
+                            break;
+                        }catch(Exception e){throw new PopError();}
+                    case 3:
+                        stacked.printer(stacked);
+                        break;
+                    case 4:
+                        b= false;
+                        break;
+                }
+            }catch(Stackoverflow e){
+                System.out.println(e);
             }
-        }catch(Exception e){
-            System.out.println("CAnnot perform operation");
+            catch(PopError p){
+                System.out.println(p);
+            }
+            catch (Exception e){
+                System.out.println(e);
+            }
         }
-    }
-}}
+    }}
